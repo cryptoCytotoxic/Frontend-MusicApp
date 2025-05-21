@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Glass Music Player</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <!-- Glassmorphism background elements -->
+    <div class="glass-bg">
+      <div class="glass-circle circle-1"></div>
+      <div class="glass-circle circle-2"></div>
+      <div class="glass-circle circle-3"></div>
+    </div>
+
+    <aside class="sidebar">
+      <h1 class="logo">Glass Music</h1>
+      <!-- Search moved to top of sidebar -->
+      <div class="search-container">
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        <input type="text" id="search-input" class="search-input" placeholder="Search your library...">
+      </div>
+      <div class="file-upload">
+        <label for="music-upload" class="upload-btn">
+          <i class="fa-solid fa-plus"></i>
+          <span>Add Music</span>
+        </label>
+        <input type="file" id="music-upload" accept="audio/*" multiple hidden />
+      </div>
+      <nav>
+        <ul>
+          <li class="nav-item active" data-section="home"><i class="icon fa-solid fa-house"></i> Home</li>
+          <li class="nav-item" data-section="library"><i class="icon fa-solid fa-book"></i> Library</li>
+          <li class="nav-item" data-section="playlists"><i class="icon fa-solid fa-list"></i> Playlists</li>
+          <li class="nav-item" data-section="favorites"><i class="icon fa-solid fa-heart"></i> Favorites</li>
+        </ul>
+      </nav>
+
+      <div class="create-playlist">
+        <button id="create-playlist-btn">
+          <i class="fa-solid fa-plus"></i> Create Playlist
+        </button>
+      </div>
+    </aside>
+
+    <div class="main">
+      <header>
+        <button id="sidebar-toggle" class="sidebar-toggle">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <h2 id="current-section-title">Home</h2>
+        <div class="filter-controls">
+          <select id="sort-by" class="filter-select">
+            <option value="name">Sort by Title</option>
+            <option value="artist">Sort by Artist</option>
+            <option value="duration">Sort by Duration</option>
+          </select>
+        </div>
+      </header>
+
+      <!-- Home Section -->
+      <section id="home-section" class="content-section active">
+        <div class="welcome-message glass-card">
+          <div class="welcome-icon">
+            <i class="fa-solid fa-music"></i>
+          </div>
+          <div class="welcome-text">
+            <h3>Your Personal Music Player</h3>
+            <p>Upload your music files to start building your library. Create playlists and organize your favorite songs.</p>
+          </div>
+        </div>
+
+        <section class="your-playlists">
+          <h3><i class="fa-solid fa-list"></i> Your Playlists</h3>
+          <div class="playlist-grid">
+            <!-- Playlists will be added here dynamically -->
+          </div>
+        </section>
+      </section>
+
+      <!-- Library Section -->
+      <section id="library-section" class="content-section">
+        <div class="library-container">
+          <div class="no-songs-message glass-card" id="no-songs-message">
+            <i class="fa-solid fa-music"></i>
+            <p>Your library is empty. Add music files to get started.</p>
+            <label for="music-upload-library" class="upload-btn-secondary">
+              <i class="fa-solid fa-plus"></i> Add Music
+            </label>
+            <input type="file" id="music-upload-library" accept="audio/*" multiple hidden />
+          </div>
+
+          <div class="song-list" id="song-list">
+            <!-- Songs will be added here dynamically -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Playlists Section -->
+      <section id="playlists-section" class="content-section">
+        <div class="playlists-container">
+          <div class="no-content-message glass-card" id="no-playlists-message" style="display: none;">
+            <i class="fa-solid fa-list"></i>
+            <p>No playlists found. Create a new playlist to get started.</p>
+          </div>
+
+          <div class="playlist-grid">
+            <!-- Playlists will be added here dynamically -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Favorites Section -->
+      <section id="favorites-section" class="content-section">
+        <div class="favorites-container">
+          <div class="no-content-message glass-card" id="no-favorites-message">
+            <i class="fa-solid fa-heart"></i>
+            <p>No favorite songs yet. Click the heart icon on a song to add it to your favorites.</p>
+          </div>
+
+          <div class="song-list" id="favorites-list">
+            <!-- Favorite songs will be added here dynamically -->
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <footer class="player glass-player">
+      <div class="player-progress">
+        <div class="progress-bar">
+          <div class="progress-current"></div>
+        </div>
+        <div class="progress-time">
+          <span class="current-time">0:00</span>
+          <span class="total-time">0:00</span>
+        </div>
+      </div>
+
+      <div class="player-controls">
+        <div class="now-playing">
+          <img id="current-thumbnail" class="cover small" src="mypicture.jpeg" alt="Now playing cover">
+          <div>
+            <p id="current-title" class="title">No song selected</p>
+            <p id="current-artist" class="artist">Select a song to play</p>
+          </div>
+          <button class="favorite-btn">
+            <i class="fa-regular fa-heart"></i>
+          </button>
+        </div>
+
+        <div class="main-controls">
+          <button class="control-btn shuffle"><i class="fa-solid fa-shuffle"></i></button>
+          <button class="control-btn prev"><i class="fa-solid fa-backward-step"></i></button>
+          <button class="control-btn play-pause" id="play-pause-btn"><i class="fa-solid fa-play"></i></button>
+          <button class="control-btn next"><i class="fa-solid fa-forward-step"></i></button>
+          <button class="control-btn repeat"><i class="fa-solid fa-repeat"></i></button>
+        </div>
+
+        <div class="volume-controls">
+          <button class="volume-icon"><i class="fa-solid fa-volume-high"></i></button>
+          <div class="volume-slider">
+            <div class="volume-progress">
+              <div class="volume-current"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hidden audio element -->
+      <audio id="audio-player"></audio>
+    </footer>
+  </div>
+
+  <!-- Create Playlist Modal -->
+  <div id="create-playlist-modal" class="modal">
+    <div class="modal-content glass-card">
+      <span class="close-modal">&times;</span>
+      <h3>Create New Playlist</h3>
+      <div class="input-group">
+        <label for="playlist-name-input">Playlist Name:</label>
+        <input type="text" id="playlist-name-input" placeholder="Enter playlist name">
+      </div>
+      <div class="input-group">
+        <label for="playlist-description-input">Description (optional):</label>
+        <textarea id="playlist-description-input" placeholder="Enter playlist description"></textarea>
+      </div>
+      <button id="save-playlist-btn" class="save-btn">Create Playlist</button>
+    </div>
+  </div>
+
+  <!-- Custom JavaScript -->
+  <script src="index.js"></script>
+</body>
+</html>
